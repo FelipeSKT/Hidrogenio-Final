@@ -301,7 +301,7 @@ body.modo-noturno .info-overlay {
     }
 
     .overlay {
-        position: absolute; /* Certifica-se de que não está fixo */
+        
         overflow-y: auto;   /* Permite rolar o conteúdo */
     }
 }

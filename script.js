@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         particlesJS('particles-main', config);
     };
 
-    const createInteractiveObject = (id, src, x, y, isCentral = false) => {
+    const createInteractiveObject = (id, src, x, y, link, isCentral = false) => {
         const obj = document.createElement('div');
         obj.classList.add('interactive-object');
         if (isCentral) {
@@ -106,9 +106,15 @@ document.addEventListener('DOMContentLoaded', () => {
         obj.appendChild(img);
         interactiveObjectsContainer.appendChild(obj);
 
-        obj.addEventListener('click', (event) => {
-            showInfoOverlay(id, event);
-        });
+        if (window.innerWidth <= 768 && !isCentral) { // Versão móvel e não central
+            obj.addEventListener('click', () => {
+                window.open(link, '_blank');
+            });
+        } else if (!isCentral) {
+            obj.addEventListener('click', (event) => {
+                showInfoOverlay(id, event);
+            });
+        }
 
         return obj;
     };
@@ -177,7 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'Impactos Economicos',
             'Produção Industrial',
             'Geração de Energia',
-            'Informações sobre sol...'
         ];
         const infoLinks = [
             'https://www.iberdrola.com/sustentabilidade/hidrogenio-verde',
@@ -188,18 +193,19 @@ document.addEventListener('DOMContentLoaded', () => {
             'https://br.boell.org/sites/default/files/2021-05/Relatorio_Hidrogenio_Verde_Boll_FINAL.pdf',
             'https://revistapesquisa.fapesp.br/na-rota-do-hidrogenio-sustentavel/',
             'https://braziljournal.com/eua-avancam-na-fusao-nuclear-abrindo-caminho-para-energia-limpa-e-infinita/',
-            'https://example.com/sol'
         ];
 
-        const centralObject = createInteractiveObject(0, srcs[0], centralPosition.x, centralPosition.y, true);
+        const centralObject = createInteractiveObject(0, srcs[0], centralPosition.x, centralPosition.y, null, true);
         interactiveObjects.push(centralObject);
 
         surroundingPositions.forEach((pos, index) => {
             const angleInRadians = pos.angle * (Math.PI / 180);
             const x = centralPosition.x + pos.distance * Math.cos(angleInRadians) - 25;
             const y = centralPosition.y + pos.distance * Math.sin(angleInRadians) - 25;
-            const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y);
-            createInfoOverlay(index + 1, infoTexts[index], infoLinks[index]);
+            const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y, infoLinks[index + 0]);
+            if (window.innerWidth > 768) {
+                createInfoOverlay(index + 1, infoTexts[index], infoLinks[index]);
+            }
             surroundingObjects.push(obj);
         });
     };
@@ -244,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleVortexAnimation = () => {
         if (window.innerWidth <= 768) {
             if (vortexActive) {
-                // Recolher os objetos ao estado original
+                
                 anime({
                     targets: surroundingObjects,
                     opacity: 0,
@@ -253,24 +259,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     scale: 0,
                     easing: 'easeInExpo',
                     duration: 500,
-                    delay: anime.stagger(100) // Intervalo entre as animações
+                    delay: anime.stagger(100) 
                 });
             } else {
-                // Expandir os objetos
+               
                 anime({
                     targets: surroundingObjects,
                     opacity: 1,
                     translateX: 0,
-                    translateY: (el, i) => (i + 1) * 60, // Espaçamento vertical de 60px
+                    translateY: (el, i) => (i + 1) * 60, 
                     scale: 1,
                     easing: 'easeOutExpo',
                     duration: 500,
-                    delay: anime.stagger(100) // Intervalo entre as animações
+                    delay: anime.stagger(100) 
                 });
             }
         } else {
             if (vortexActive) {
-                // Recolher os objetos ao estado original
+                
                 anime({
                     targets: surroundingObjects,
                     opacity: 0,
@@ -282,7 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     delay: anime.stagger(100, { start: 300 })
                 });
             } else {
-                // Expandir os objetos
+                
                 anime({
                     targets: surroundingObjects,
                     opacity: 1,
@@ -303,7 +309,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         vortexActive = !vortexActive;
     };
-    
 
     const resetOverlayElements = () => {
         vortexActive = false;
@@ -429,28 +434,8 @@ document.addEventListener('DOMContentLoaded', () => {
 const getCentralPosition = () => {
     const isMobile = window.innerWidth <= 768;
     const centerX = window.innerWidth / 2;
-    const centerY = isMobile ? 100 : window.innerHeight / 2; // Ajuste a altura desejada para o objeto central na versão mobile
+    const centerY = isMobile ? 100 : window.innerHeight / 2; 
     return { x: centerX, y: centerY };
-};
-
-const initializeInteractiveObjects = () => {
-    const centralPosition = getCentralPosition();
-    const isMobile = window.innerWidth <= 768;
-
-    const centralObject = createInteractiveObject(0, srcs[0], centralPosition.x, centralPosition.y, true);
-    if (isMobile) {
-        centralObject.classList.add('mobile');
-    }
-    interactiveObjects.push(centralObject);
-
-    surroundingPositions.forEach((pos, index) => {
-        const angleInRadians = pos.angle * (Math.PI / 180);
-        const x = centralPosition.x + pos.distance * Math.cos(angleInRadians) - 25;
-        const y = centralPosition.y + pos.distance * Math.sin(angleInRadians) - 25;
-        const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y);
-        createInfoOverlay(index + 1, infoTexts[index], infoLinks[index]);
-        surroundingObjects.push(obj);
-    });
 };
 
 const adjustOverlayForMobile = () => {
@@ -462,4 +447,4 @@ const adjustOverlayForMobile = () => {
 };
 
 window.addEventListener('resize', adjustOverlayForMobile);
-    adjustOverlayForMobile();
+adjustOverlayForMobile();
