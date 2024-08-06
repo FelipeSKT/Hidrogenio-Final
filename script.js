@@ -109,10 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.innerWidth <= 768 && !isCentral) { // Versão móvel e não central
             obj.addEventListener('click', () => {
                 window.open(link, '_blank');
+                scrollToElementIfNeeded(obj);
             });
         } else if (!isCentral) {
             obj.addEventListener('click', (event) => {
                 showInfoOverlay(id, event);
+                scrollToElementIfNeeded(obj);
             });
         }
 
@@ -308,6 +310,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         vortexActive = !vortexActive;
+
+        // Adicionar a rolagem automática para os objetos fora da tela
+        if (window.innerWidth <= 768) {
+            surroundingObjects.forEach((obj, i) => {
+                setTimeout(() => {
+                    scrollToElementIfNeeded(obj);
+                }, i * 500); // Ajuste o intervalo conforme necessário
+            });
+        }
     };
 
     const resetOverlayElements = () => {
@@ -443,6 +454,22 @@ const adjustOverlayForMobile = () => {
         overlay.style.overflowY = 'auto';
     } else {
         overlay.style.overflowY = 'hidden';
+    }
+};
+
+const isElementInViewport = (el) => {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+};
+
+const scrollToElementIfNeeded = (el) => {
+    if (!isElementInViewport(el)) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 };
 
