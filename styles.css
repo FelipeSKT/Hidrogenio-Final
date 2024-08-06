@@ -196,7 +196,7 @@ body.modo-noturno .close-overlay {
 }
 
 .central-object.mobile {
-    top: 20px; /* Ajuste conforme necessário para o espaçamento superior */
+    top: 20px; 
 }
 
 .interactive-object img {

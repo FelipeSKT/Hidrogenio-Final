@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         obj.appendChild(img);
         interactiveObjectsContainer.appendChild(obj);
 
-        if (window.innerWidth <= 768 && !isCentral) { // Versão móvel e não central
+        if (window.innerWidth <= 768 && !isCentral) { 
             obj.addEventListener('click', () => {
                 window.open(link, '_blank');
                 scrollToElementIfNeeded(obj);
@@ -307,12 +307,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         vortexActive = !vortexActive;
 
-        // Adicionar a rolagem automática para os objetos fora da tela
+     
         if (window.innerWidth <= 768) {
             surroundingObjects.forEach((obj, i) => {
                 setTimeout(() => {
                     scrollToElementIfNeeded(obj);
-                }, i * 500); // Ajuste o intervalo conforme necessário
+                }, i * 500); 
             });
         }
     };
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resetOverlay = () => {
         overlay.style.display = 'none';
-        // document.body.style.overflow = ''; // Remover a linha que desabilita a rolagem do corpo
+     
         interactiveObjectsContainer.innerHTML = '';
         infoOverlaysContainer.innerHTML = '';
         interactiveObjects = [];
@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     centralButton.addEventListener('click', function() {
         overlay.style.display = 'flex';
-        // document.body.style.overflow = 'hidden'; // Remover a linha que desabilita a rolagem do corpo
+  
         loadParticlesConfig(document.body.classList.contains('modo-noturno'));
         const centralObject = interactiveObjects[0];
         anime({
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closeOverlay.addEventListener('click', function() {
         overlay.style.display = 'none';
-        // document.body.style.overflow = ''; // Remover a linha que desabilita a rolagem do corpo
+   
         vortexActive = false;
         surroundingObjects.forEach(obj => {
             obj.style.opacity = '0';
@@ -407,7 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.addEventListener('click', function(event) {
         if (event.target === overlay) {
             overlay.style.display = 'none';
-            // document.body.style.overflow = ''; // Remover a linha que desabilita a rolagem do corpo
+            
             vortexActive = false;
             surroundingObjects.forEach(obj => {
                 obj.style.opacity = '0';
