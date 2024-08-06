@@ -117,22 +117,20 @@ body.modo-noturno .extra-info {
 }
 
 .overlay {
-    display: none;
-    position: fixed;
+    position: absolute; 
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgb(216, 216, 216);
     z-index: 1000;
-    overflow: hidden;
+    overflow: auto; 
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     border: 1px solid #ccc;
-    overflow-y: auto; /* Permitir rolagem vertical */
-}
+    }
 
 .close-overlay {
     position: absolute;
@@ -302,7 +300,7 @@ body.modo-noturno .info-overlay {
 
     .overlay {
         
-        overflow-y: auto;   /* Permite rolar o conteúdo */
+        overflow: 1000px;
     }
 }
 
@@ -323,7 +321,7 @@ body.modo-noturno .info-overlay {
     }
 
 .info-overlay {
-        width: 90%; /* Ajuste o tamanho do overlay de informações */
+        width: 90%; 
         left: 5%; 
     }
 
