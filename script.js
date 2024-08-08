@@ -1,3 +1,5 @@
+// Path: /mnt/data/script.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const modoNoturnoIcon = document.getElementById('modo-noturno');
     const overlay = document.getElementById('overlay');
@@ -50,13 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     mode: "repulse"
                 },
                 onclick: {
-                    enable: false  // Desabilita a criação de novas partículas ao clicar
+                    enable: false
                 }
             },
             modes: {
                 repulse: {
-                    distance: 100,  // Distância para o efeito de repulsão
-                    duration: 0.4   // Duração do efeito
+                    distance: 100,
+                    duration: 0.4
                 }
             }
         }
@@ -84,175 +86,103 @@ document.addEventListener('DOMContentLoaded', () => {
         particlesJS('particles-main', config);
     };
 
-// JavaScript: Código atualizado para reabrir o iframe após fechá-lo
+    const createInteractiveObject = (id, src, x, y, link, isCentral = false) => {
+        const obj = document.createElement('div');
+        obj.classList.add('interactive-object');
+        if (isCentral) {
+            obj.classList.add('central-object');
+        }
+        obj.style.left = `${x}px`;
+        obj.style.top = `${y}px`;
 
-const createInteractiveObject = (id, src, x, y, link, isCentral = false) => {
-    const obj = document.createElement('div');
-    obj.classList.add('interactive-object');
-    if (isCentral) {
-        obj.classList.add('central-object');
-    }
-    obj.style.left = `${x}px`;
-    obj.style.top = `${y}px`;
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `object-${id}`;
 
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = `object-${id}`;
+        obj.appendChild(img);
+        interactiveObjectsContainer.appendChild(obj);
 
-    obj.appendChild(img);
-    interactiveObjectsContainer.appendChild(obj);
+        if (!isCentral) {
+            obj.addEventListener('click', () => {
+                anime({
+                    targets: obj,
+                    scale: 1.5,
+                    opacity: 0.6,
+                    easing: 'easeInOutQuad',
+                    duration: 200,
+                    direction: 'alternate'
+                });
 
-    if (!isCentral) {
-        obj.addEventListener('click', () => {
-            anime({
-                targets: obj,
-                scale: 1.5,
-                opacity: 0.6,
-                easing: 'easeInOutQuad',
-                duration: 200,
-                direction: 'alternate'
+                const iframeContainer = document.getElementById('iframe-container');
+                const iframeContent = document.getElementById('iframe-content');
+                const loadingIndicator = document.getElementById('loading-indicator');
+
+                loadingIndicator.style.display = 'block';
+
+                iframeContainer.style.display = 'flex';
+                iframeContainer.classList.remove('hide');
+                iframeContainer.classList.add('show');
+
+                iframeContent.src = link;
+
+                iframeContent.style.display = 'none';
+
+                iframeContent.onload = () => {
+                    loadingIndicator.style.display = 'none';
+                    iframeContent.style.display = 'block';
+                    adjustIframeSize(iframeContent);
+                };
             });
 
-            const iframeContainer = document.getElementById('iframe-container');
-            const iframeContent = document.getElementById('iframe-content');
-            const loadingIndicator = document.getElementById('loading-indicator');
-
-            // Mostrar o indicador de carregamento
-            loadingIndicator.style.display = 'block';
-
-            // Tornar o container visível novamente
-            iframeContainer.style.display = 'flex';
-            iframeContainer.classList.remove('hide');
-            iframeContainer.classList.add('show');
-
-            // Carregar o link no iframe
-            iframeContent.src = link;
-
-            // Ocultar o conteúdo do iframe até que ele esteja totalmente carregado
-            iframeContent.style.display = 'none';
-
-            // Redimensionamento dinâmico após o carregamento do iframe
-            iframeContent.onload = () => {
-                loadingIndicator.style.display = 'none';
-                iframeContent.style.display = 'block';
-                adjustIframeSize(iframeContent);
-            };
-        });
-
-        obj.addEventListener('mouseenter', () => {
-            anime({
-                targets: obj,
-                scale: 1.2,
-                opacity: 0.8,
-                easing: 'easeInOutQuad',
-                duration: 300
+            obj.addEventListener('mouseenter', () => {
+                anime({
+                    targets: obj,
+                    scale: 1.2,
+                    opacity: 0.8,
+                    easing: 'easeInOutQuad',
+                    duration: 300
+                });
             });
-        });
 
-        obj.addEventListener('mouseleave', () => {
-            anime({
-                targets: obj,
-                scale: 1,
-                opacity: 1,
-                easing: 'easeInOutQuad',
-                duration: 300
+            obj.addEventListener('mouseleave', () => {
+                anime({
+                    targets: obj,
+                    scale: 1,
+                    opacity: 1,
+                    easing: 'easeInOutQuad',
+                    duration: 300
+                });
             });
-        });
-    }
+        }
 
-    return obj;
-};
+        return obj;
+    };
 
-document.getElementById('close-iframe').addEventListener('click', function() {
-    const iframeContainer = document.getElementById('iframe-container');
-    iframeContainer.classList.remove('show');
-    iframeContainer.classList.add('hide');
-
-    setTimeout(() => {
-        iframeContainer.style.display = 'none';
-        const iframeContent = document.getElementById('iframe-content');
-        iframeContent.src = '';
-    }, 500);
-});
-
-document.getElementById('fullscreen-iframe').addEventListener('click', function() {
-    const iframeContainer = document.getElementById('iframe-container');
-    iframeContainer.classList.toggle('fullscreen');
-
-    // Ajustar o botão de fullscreen de acordo com o estado atual
-    const fullscreenButton = document.getElementById('fullscreen-iframe').querySelector('i');
-    if (iframeContainer.classList.contains('fullscreen')) {
-        fullscreenButton.textContent = 'fullscreen_exit';
-    } else {
-        fullscreenButton.textContent = 'fullscreen';
-    }
-});
-
-// Função para redimensionar dinamicamente o iframe
-const adjustIframeSize = (iframe) => {
-    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-    const iframeHeight = iframeDocument.body.scrollHeight;
-    iframe.style.height = iframeHeight + 'px';
-};
-
-// Ajustar o iframe no caso de rotação de tela em dispositivos móveis
-window.addEventListener('orientationchange', () => {
-    const iframeContent = document.getElementById('iframe-content');
-    adjustIframeSize(iframeContent);
-});
-
-// Mostrar o iframe com animação suave
-document.getElementById('iframe-container').addEventListener('transitionend', function(event) {
-    if (event.propertyName === 'opacity' && this.classList.contains('hide')) {
-        this.style.display = 'none';
-    }
-});
+    const interactiveObjectData = [
+        { id: 0, src: 'botao/atomic.png', link: null, angle: 0, distance: 0, isCentral: true },
+        { id: 1, src: 'botao/usina.png', link: 'https://www.iberdrola.com/sustentabilidade/hidrogenio-verde', angle: 45, distance: 90 },
+        { id: 2, src: 'botao/arvore.png', link: 'https://www.complexodopecem.com.br/estudo-de-impacto-ambiental-do-hub-de-hidrogenio-verde-no-pecem-e-apresentado-em-audiencia-publica/', angle: 90, distance: 90 },
+        { id: 3, src: 'botao/agua.png', link: 'https://propeq.com/hidrogenio-verde-producao/', angle: 135, distance: 90 },
+        { id: 4, src: 'botao/carro.png', link: 'https://www.flipbookpdf.net/web/site/9426fffb22cd3a0d6dc761794bc7b80a6dc0039d202406.pdf.html#page/16', angle: 180, distance: 90 },
+        { id: 5, src: 'botao/company.png', link: 'https://www.cnnbrasil.com.br/economia/negocios/petrobras-vai-investir-r-90-mi-em-planta-para-hidrogenio-de-baixo-carbono/', angle: 225, distance: 90 },
+        { id: 6, src: 'botao/economia.png', link: 'https://br.boell.org/sites/default/files/2021-05/Relatorio_Hidrogenio_Verde_Boll_FINAL.pdf', angle: 270, distance: 90 },
+        { id: 7, src: 'botao/industrial.png', link: 'https://jenningsanodes.com/applications/hydrogen-production-by-water-electrolysis/?gad_source=1&gclid=CjwKCAjw2dG1BhB4EiwA998cqEdCZIhuOHpIm07xiAmFNefoopQoMWIb3B6pidhx3eU9xzktHYL-AxoCbO4QAvD_BwE', angle: 315, distance: 90 },
+        { id: 8, src: 'botao/sol.png', link: 'https://braziljournal.com/eua-avancam-na-fusao-nuclear-abrindo-caminho-para-energia-limpa-e-infinita/', angle: 360, distance: 90 },
+    ];
 
     const initializeInteractiveObjects = () => {
         const centralPosition = getCentralPosition();
-        const surroundingPositions = [
-            { angle: 45, distance: 90 },
-            { angle: 90, distance: 90 },
-            { angle: 135, distance: 90 },
-            { angle: 180, distance: 90 },
-            { angle: 225, distance: 90 },
-            { angle: 270, distance: 90 },
-            { angle: 315, distance: 90 },
-            { angle: 360, distance: 90 },
-        ];
-        const srcs = [
-            'botao/atomic.png',
-            'botao/usina.png',
-            'botao/arvore.png',
-            'botao/agua.png',
-            'botao/carro.png',
-            'botao/company.png',
-            'botao/economia.png',
-            'botao/industrial.png',
-            'botao/sol.png'
-        ];
-        const infoLinks = [
-            'https://www.iberdrola.com/sustentabilidade/hidrogenio-verde',
-            'https://www.complexodopecem.com.br/estudo-de-impacto-ambiental-do-hub-de-hidrogenio-verde-no-pecem-e-apresentado-em-audiencia-publica/',
-            'https://propeq.com/hidrogenio-verde-producao/',
-            'https://www.flipbookpdf.net/web/site/9426fffb22cd3a0d6dc761794bc7b80a6dc0039d202406.pdf.html#page/16',
-            'https://www.cnnbrasil.com.br/economia/negocios/petrobras-vai-investir-r-90-mi-em-planta-para-hidrogenio-de-baixo-carbono/',
-            'https://br.boell.org/sites/default/files/2021-05/Relatorio_Hidrogenio_Verde_Boll_FINAL.pdf',
-            'https://jenningsanodes.com/applications/hydrogen-production-by-water-electrolysis/?gad_source=1&gclid=CjwKCAjw2dG1BhB4EiwA998cqEdCZIhuOHpIm07xiAmFNefoopQoMWIb3B6pidhx3eU9xzktHYL-AxoCbO4QAvD_BwE',
-            'https://braziljournal.com/eua-avancam-na-fusao-nuclear-abrindo-caminho-para-energia-limpa-e-infinita/',
-        ];
-        
-    const centralObject = createInteractiveObject(0, srcs[0], centralPosition.x, centralPosition.y, null, true);
-    interactiveObjects.push(centralObject);
 
-    surroundingPositions.forEach((pos, index) => {
-        const angleInRadians = pos.angle * (Math.PI / 180);
-        const randomOffsetX = Math.random() * 30 - 15; // Variação aleatória em X
-        const randomOffsetY = Math.random() * 30 - 15; // Variação aleatória em Y
-        const x = centralPosition.x + (pos.distance + randomOffsetX) * Math.cos(angleInRadians) - 25;
-        const y = centralPosition.y + (pos.distance + randomOffsetY) * Math.sin(angleInRadians) - 25;
-        const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y, infoLinks[index]);
-        surroundingObjects.push(obj);
+        interactiveObjectData.forEach(data => {
+            const angleInRadians = data.angle * (Math.PI / 180);
+            const randomOffsetX = data.isCentral ? 0 : Math.random() * 30 - 15;
+            const randomOffsetY = data.isCentral ? 0 : Math.random() * 30 - 15;
+
+            const x = centralPosition.x + (data.distance + randomOffsetX) * Math.cos(angleInRadians) - 25;
+            const y = centralPosition.y + (data.distance + randomOffsetY) * Math.sin(angleInRadians) - 25;
+
+            const obj = createInteractiveObject(data.id, data.src, x, y, data.link, data.isCentral);
+            (data.isCentral ? interactiveObjects : surroundingObjects).push(obj);
         });
     };
 
@@ -492,3 +422,43 @@ const scrollToElementIfNeeded = (el) => {
 window.addEventListener('resize', adjustOverlayForMobile);
 adjustOverlayForMobile();
 
+document.getElementById('close-iframe').addEventListener('click', function() {
+    const iframeContainer = document.getElementById('iframe-container');
+    iframeContainer.classList.remove('show');
+    iframeContainer.classList.add('hide');
+
+    setTimeout(() => {
+        iframeContainer.style.display = 'none';
+        const iframeContent = document.getElementById('iframe-content');
+        iframeContent.src = '';
+    }, 500);
+});
+
+document.getElementById('fullscreen-iframe').addEventListener('click', function() {
+    const iframeContainer = document.getElementById('iframe-container');
+    iframeContainer.classList.toggle('fullscreen');
+
+    const fullscreenButton = document.getElementById('fullscreen-iframe').querySelector('i');
+    if (iframeContainer.classList.contains('fullscreen')) {
+        fullscreenButton.textContent = 'fullscreen_exit';
+    } else {
+        fullscreenButton.textContent = 'fullscreen';
+    }
+});
+
+const adjustIframeSize = (iframe) => {
+    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+    const iframeHeight = iframeDocument.body.scrollHeight;
+    iframe.style.height = iframeHeight + 'px';
+};
+
+window.addEventListener('orientationchange', () => {
+    const iframeContent = document.getElementById('iframe-content');
+    adjustIframeSize(iframeContent);
+});
+
+document.getElementById('iframe-container').addEventListener('transitionend', function(event) {
+    if (event.propertyName === 'opacity' && this.classList.contains('hide')) {
+        this.style.display = 'none';
+    }
+});
