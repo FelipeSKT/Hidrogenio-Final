@@ -88,59 +88,129 @@ document.addEventListener('DOMContentLoaded', () => {
         particlesJS('particles-main', config);
     };
 
-    const createInteractiveObject = (id, src, x, y, link, isCentral = false) => {
-        const obj = document.createElement('div');
-        obj.classList.add('interactive-object');
-        if (isCentral) {
-            obj.classList.add('central-object');
-        }
-        obj.style.left = `${x}px`;
-        obj.style.top = `${y}px`;
+// JavaScript: Código atualizado para reabrir o iframe após fechá-lo
 
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = `object-${id}`;
+const createInteractiveObject = (id, src, x, y, link, isCentral = false) => {
+    const obj = document.createElement('div');
+    obj.classList.add('interactive-object');
+    if (isCentral) {
+        obj.classList.add('central-object');
+    }
+    obj.style.left = `${x}px`;
+    obj.style.top = `${y}px`;
 
-        obj.appendChild(img);
-        interactiveObjectsContainer.appendChild(obj);
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = `object-${id}`;
 
-        if (!isCentral) {
-            obj.addEventListener('click', () => {
-                anime({
-                    targets: obj,
-                    scale: 1.5,
-                    opacity: 0.6,
-                    easing: 'easeInOutQuad',
-                    duration: 200,
-                    direction: 'alternate'
-                });
-                window.open(link, '_blank');
-                scrollToElementIfNeeded(obj);
+    obj.appendChild(img);
+    interactiveObjectsContainer.appendChild(obj);
+
+    if (!isCentral) {
+        obj.addEventListener('click', () => {
+            anime({
+                targets: obj,
+                scale: 1.5,
+                opacity: 0.6,
+                easing: 'easeInOutQuad',
+                duration: 200,
+                direction: 'alternate'
             });
 
-            obj.addEventListener('mouseenter', () => {
-                anime({
-                    targets: obj,
-                    scale: 1.2,
-                    opacity: 0.8,
-                    easing: 'easeInOutQuad',
-                    duration: 300
-                });
-            });
+            const iframeContainer = document.getElementById('iframe-container');
+            const iframeContent = document.getElementById('iframe-content');
+            const loadingIndicator = document.getElementById('loading-indicator');
 
-            obj.addEventListener('mouseleave', () => {
-                anime({
-                    targets: obj,
-                    scale: 1,
-                    opacity: 1,
-                    easing: 'easeInOutQuad',
-                    duration: 300
-                });
-            });
-        }
+            // Mostrar o indicador de carregamento
+            loadingIndicator.style.display = 'block';
 
-        return obj;
-    };
+            // Tornar o container visível novamente
+            iframeContainer.style.display = 'flex';
+            iframeContainer.classList.remove('hide');
+            iframeContainer.classList.add('show');
+
+            // Carregar o link no iframe
+            iframeContent.src = link;
+
+            // Ocultar o conteúdo do iframe até que ele esteja totalmente carregado
+            iframeContent.style.display = 'none';
+
+            // Redimensionamento dinâmico após o carregamento do iframe
+            iframeContent.onload = () => {
+                loadingIndicator.style.display = 'none';
+                iframeContent.style.display = 'block';
+                adjustIframeSize(iframeContent);
+            };
+        });
+
+        obj.addEventListener('mouseenter', () => {
+            anime({
+                targets: obj,
+                scale: 1.2,
+                opacity: 0.8,
+                easing: 'easeInOutQuad',
+                duration: 300
+            });
+        });
+
+        obj.addEventListener('mouseleave', () => {
+            anime({
+                targets: obj,
+                scale: 1,
+                opacity: 1,
+                easing: 'easeInOutQuad',
+                duration: 300
+            });
+        });
+    }
+
+    return obj;
+};
+
+document.getElementById('close-iframe').addEventListener('click', function() {
+    const iframeContainer = document.getElementById('iframe-container');
+    iframeContainer.classList.remove('show');
+    iframeContainer.classList.add('hide');
+
+    setTimeout(() => {
+        iframeContainer.style.display = 'none';
+        const iframeContent = document.getElementById('iframe-content');
+        iframeContent.src = '';
+    }, 500);
+});
+
+document.getElementById('fullscreen-iframe').addEventListener('click', function() {
+    const iframeContainer = document.getElementById('iframe-container');
+    iframeContainer.classList.toggle('fullscreen');
+
+    // Ajustar o botão de fullscreen de acordo com o estado atual
+    const fullscreenButton = document.getElementById('fullscreen-iframe').querySelector('i');
+    if (iframeContainer.classList.contains('fullscreen')) {
+        fullscreenButton.textContent = 'fullscreen_exit';
+    } else {
+        fullscreenButton.textContent = 'fullscreen';
+    }
+});
+
+// Função para redimensionar dinamicamente o iframe
+const adjustIframeSize = (iframe) => {
+    const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+    const iframeHeight = iframeDocument.body.scrollHeight;
+    iframe.style.height = iframeHeight + 'px';
+};
+
+// Ajustar o iframe no caso de rotação de tela em dispositivos móveis
+window.addEventListener('orientationchange', () => {
+    const iframeContent = document.getElementById('iframe-content');
+    adjustIframeSize(iframeContent);
+});
+
+// Mostrar o iframe com animação suave
+document.getElementById('iframe-container').addEventListener('transitionend', function(event) {
+    if (event.propertyName === 'opacity' && this.classList.contains('hide')) {
+        this.style.display = 'none';
+    }
+});
 
     const initializeInteractiveObjects = () => {
         const centralPosition = getCentralPosition();

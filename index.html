@@ -43,8 +43,17 @@
         <div id="particles-js"></div>
         <button id="close-overlay" class="close-overlay"><i class="material-icons">close</i></button>
         <div id="interactive-objects"></div>
-        <div id="info-overlays"></div>
     </div>
+    
+<!-- HTML: Container para o iframe com botão de fechar, indicador de carregamento e botão fullscreen -->
+<div id="iframe-container" class="iframe-container">
+    <button id="close-iframe" class="close-iframe"><i class="material-icons">close</i></button>
+    <button id="fullscreen-iframe" class="fullscreen-iframe"><i class="material-icons">fullscreen</i></button>
+    <div id="loading-indicator" class="loading-indicator">Carregando...</div>
+    <iframe id="iframe-content" src="" frameborder="0"></iframe>
+</div>
+
+
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script> 
     <script src="script.js"></script>
