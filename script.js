@@ -4,11 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeOverlay = document.getElementById('close-overlay');
     const centralButton = document.querySelector('.central-button');
     const interactiveObjectsContainer = document.getElementById('interactive-objects');
-    const infoOverlaysContainer = document.getElementById('info-overlays');
 
     let interactiveObjects = [];
     let surroundingObjects = [];
-    let infoOverlays = [];
     let vortexActive = false;
 
     const lightParticlesConfig = {
@@ -144,38 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return obj;
     };
 
-    const createInfoOverlay = (id, text, link) => {
-        const overlay = document.createElement('div');
-        overlay.classList.add('info-overlay');
-        overlay.id = `info-overlay-${id}`;
-
-        const content = document.createElement('div');
-        content.classList.add('info-content');
-
-        const closeButton = document.createElement('button');
-        closeButton.classList.add('close-info-overlay');
-        closeButton.innerHTML = '<i class="material-icons">close</i>';
-        closeButton.addEventListener('click', () => {
-            overlay.style.display = 'none';
-        });
-
-        const infoText = document.createElement('p');
-        infoText.textContent = text;
-
-        const infoLink = document.createElement('a');
-        infoLink.href = link;
-        infoLink.target = '_blank';
-        infoLink.textContent = 'Leia mais';
-
-        content.appendChild(closeButton);
-        content.appendChild(infoText);
-        content.appendChild(infoLink);
-        overlay.appendChild(content);
-
-        infoOverlaysContainer.appendChild(overlay);
-        infoOverlays.push(overlay);
-    };
-
     const initializeInteractiveObjects = () => {
         const centralPosition = getCentralPosition();
         const surroundingPositions = [
@@ -199,16 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'botao/industrial.png',
             'botao/sol.png'
         ];
-        const infoTexts = [
-            'Hidrogenio Verde',
-            'Impacto Ambiental',
-            'Extração do Hidrogenio',
-            'Veiculo a Hidrogenio',
-            'Empresas no Setor',
-            'Impactos Economicos',
-            'Produção Industrial',
-            'Geração de Energia',
-        ];
         const infoLinks = [
             'https://www.iberdrola.com/sustentabilidade/hidrogenio-verde',
             'https://www.complexodopecem.com.br/estudo-de-impacto-ambiental-do-hub-de-hidrogenio-verde-no-pecem-e-apresentado-em-audiencia-publica/',
@@ -228,9 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = centralPosition.x + pos.distance * Math.cos(angleInRadians) - 25;
             const y = centralPosition.y + pos.distance * Math.sin(angleInRadians) - 25;
             const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y, infoLinks[index]);
-            if (window.innerWidth > 768) {
-                createInfoOverlay(index + 1, infoTexts[index], infoLinks[index]);
-            }
             surroundingObjects.push(obj);
         });
     };
@@ -246,30 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
             obj.style.left = `${centralPosition.x + 0 * Math.cos(angleInRadians) - 25}px`;
             obj.style.top = `${centralPosition.y + 0 * Math.sin(angleInRadians) - 25}px`;
         });
-    };
-
-    const showInfoOverlay = (id, event) => {
-        infoOverlays.forEach(overlay => {
-            overlay.style.display = 'none';
-        });
-
-        const obj = surroundingObjects[id - 1];
-        const infoOverlay = document.getElementById(`info-overlay-${id}`);
-        if (obj && infoOverlay) {
-            const rect = obj.getBoundingClientRect();
-            infoOverlay.style.left = `${rect.right + window.scrollX}px`;
-            infoOverlay.style.top = `${rect.top + window.scrollY}px`;
-            infoOverlay.style.display = 'block';
-
-            infoOverlay.style.transform = 'scale(0.5)';
-            infoOverlay.style.opacity = '0';
-
-            requestAnimationFrame(() => {
-                infoOverlay.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
-                infoOverlay.style.transform = 'scale(1)';
-                infoOverlay.style.opacity = '1';
-            });
-        }
     };
 
     const toggleVortexAnimation = () => {
@@ -351,10 +280,8 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.style.display = 'none';
 
         interactiveObjectsContainer.innerHTML = '';
-        infoOverlaysContainer.innerHTML = '';
         interactiveObjects = [];
         surroundingObjects = [];
-        infoOverlays = [];
         initializeInteractiveObjects();
         updateObjectPositions();
         resetOverlayElements();
@@ -374,10 +301,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resetSite = () => {
         interactiveObjectsContainer.innerHTML = '';
-        infoOverlaysContainer.innerHTML = '';
         interactiveObjects = [];
         surroundingObjects = [];
-        infoOverlays = [];
         initializeInteractiveObjects();
         updateObjectPositions();
     };
@@ -387,9 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
         modoNoturnoIcon.src = isNightMode ? 'icone_sol.png' : 'icone_lua.png';
         loadParticlesConfig(isNightMode);
         loadMainParticlesConfig(isNightMode);
-        document.querySelectorAll('.info-overlay').forEach(overlay => {
-            overlay.classList.toggle('modo-noturno', isNightMode);
-        });
         resetSite();
         if (isNightMode) {
             document.body.classList.add('modo-noturno');
@@ -402,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         anime({
             targets: centralButton,
             scale: [1, 1.2, 1],
+            rotate: '1turn',
             easing: 'easeInOutQuad',
             duration: 600,
         });
