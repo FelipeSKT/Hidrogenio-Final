@@ -30,27 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
             size: { value: 1.5 },
             line_linked: { enable: true, color: '#ffffff' },
             move: { enable: true, speed: 0.6 }
-        },
-        interactivity: {
-            events: {
-                onhover: {
-                    enable: true,
-                    mode: 'grab'
-                },
-                onclick: {
-                    enable: false,
-                    mode: 'push'
-                }
-            },
-            modes: {
-                repulse: {
-                    distance: 100,
-                    duration: 0.4
-                },
-                push: {
-                    particles_nb: 4
-                }
-            }
         }
     };
 
@@ -63,6 +42,23 @@ document.addEventListener('DOMContentLoaded', () => {
             size: { value: 15, random: true },
             line_linked: { enable: false, color: '#ffffff' },
             move: { enable: true, speed: 1.5, direction: 'bottom' }
+        },
+        interactivity: {
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "repulse"
+                },
+                onclick: {
+                    enable: false  // Desabilita a criação de novas partículas ao clicar
+                }
+            },
+            modes: {
+                repulse: {
+                    distance: 100,  // Distância para o efeito de repulsão
+                    duration: 0.4   // Duração do efeito
+                }
+            }
         }
     };
 
@@ -239,22 +235,24 @@ document.getElementById('iframe-container').addEventListener('transitionend', fu
             'https://www.iberdrola.com/sustentabilidade/hidrogenio-verde',
             'https://www.complexodopecem.com.br/estudo-de-impacto-ambiental-do-hub-de-hidrogenio-verde-no-pecem-e-apresentado-em-audiencia-publica/',
             'https://propeq.com/hidrogenio-verde-producao/',
-            'https://petrosolgas.com.br/estudantes-brasileiros-criam-carro-movido-a-partir-da-celula-de-hidrogenio-e-o-resultado-e-surreal/',
-            'https://press.siemens.com/global/en/pressrelease/siemens-commissions-one-germanys-largest-green-hydrogen-generation-plants',
+            'https://www.flipbookpdf.net/web/site/9426fffb22cd3a0d6dc761794bc7b80a6dc0039d202406.pdf.html#page/16',
+            'https://www.cnnbrasil.com.br/economia/negocios/petrobras-vai-investir-r-90-mi-em-planta-para-hidrogenio-de-baixo-carbono/',
             'https://br.boell.org/sites/default/files/2021-05/Relatorio_Hidrogenio_Verde_Boll_FINAL.pdf',
-            'https://revistapesquisa.fapesp.br/na-rota-do-hidrogenio-sustentavel/',
+            'https://jenningsanodes.com/applications/hydrogen-production-by-water-electrolysis/?gad_source=1&gclid=CjwKCAjw2dG1BhB4EiwA998cqEdCZIhuOHpIm07xiAmFNefoopQoMWIb3B6pidhx3eU9xzktHYL-AxoCbO4QAvD_BwE',
             'https://braziljournal.com/eua-avancam-na-fusao-nuclear-abrindo-caminho-para-energia-limpa-e-infinita/',
         ];
+        
+    const centralObject = createInteractiveObject(0, srcs[0], centralPosition.x, centralPosition.y, null, true);
+    interactiveObjects.push(centralObject);
 
-        const centralObject = createInteractiveObject(0, srcs[0], centralPosition.x, centralPosition.y, null, true);
-        interactiveObjects.push(centralObject);
-
-        surroundingPositions.forEach((pos, index) => {
-            const angleInRadians = pos.angle * (Math.PI / 180);
-            const x = centralPosition.x + pos.distance * Math.cos(angleInRadians) - 25;
-            const y = centralPosition.y + pos.distance * Math.sin(angleInRadians) - 25;
-            const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y, infoLinks[index]);
-            surroundingObjects.push(obj);
+    surroundingPositions.forEach((pos, index) => {
+        const angleInRadians = pos.angle * (Math.PI / 180);
+        const randomOffsetX = Math.random() * 30 - 15; // Variação aleatória em X
+        const randomOffsetY = Math.random() * 30 - 15; // Variação aleatória em Y
+        const x = centralPosition.x + (pos.distance + randomOffsetX) * Math.cos(angleInRadians) - 25;
+        const y = centralPosition.y + (pos.distance + randomOffsetY) * Math.sin(angleInRadians) - 25;
+        const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y, infoLinks[index]);
+        surroundingObjects.push(obj);
         });
     };
 
@@ -493,3 +491,4 @@ const scrollToElementIfNeeded = (el) => {
 
 window.addEventListener('resize', adjustOverlayForMobile);
 adjustOverlayForMobile();
+

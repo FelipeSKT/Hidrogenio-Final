@@ -13,6 +13,7 @@ body {
     transition: background-color 0.3s, color 0.3s;
     overflow-x: hidden;
     position: relative;
+    z-index: 1000;
 }
 
 header {
@@ -21,7 +22,6 @@ header {
     position: fixed;
     width: 100%; 
     top: 0;
-    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -29,6 +29,7 @@ header {
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
     margin: 0 auto; 
+    z-index: 1001;
 }
 
 header h1 {
@@ -37,6 +38,7 @@ header h1 {
     color: white;
     text-align: center;
     flex: 1;
+    z-index: 1001;
 }
 
 header img#modo-noturno {
@@ -46,7 +48,7 @@ header img#modo-noturno {
     border-radius: 50%;
     position: absolute;
     left: 20px;
-    z-index: 1001;
+    z-index: 1004;
 }
 
 main {
@@ -61,6 +63,7 @@ main {
     text-align: center;
     position: relative;
     padding-top: 80px;
+    z-index: 1000;
 }
 
 .central-button {
@@ -70,10 +73,12 @@ main {
     border-radius: 50%;
     transition: transform 0.3s ease-in-out;
     margin: 20px 0;
+    z-index: 1001;
 }
 
 .central-button:hover {
     transform: scale(1.1);
+    z-index: 1001;
 }
 
 footer {
@@ -88,6 +93,7 @@ footer {
     transition: bottom 500ms ease-in-out;
     border-top-left-radius: 50px; 
     border-top-right-radius: 50px; 
+    z-index: 1001;
 }
 
 .extra-info {
@@ -97,23 +103,28 @@ footer {
     border-radius: 10px;
     color: white;
     font-size: 110%;
+    z-index: 1001;
 }
 
 body.modo-noturno {
     background-color: #1C201D;
     color: white;
+    z-index: 1000;
 }
 
 body.modo-noturno header {
     background-color: #428350;
+    z-index: 1001;
 }
 
 body.modo-noturno footer {
     background-color: #428350;
+    z-index: 1001;
 }
 
 body.modo-noturno .extra-info {
     color: white;
+    z-index: 1001;
 }
 
 .overlay {
@@ -123,7 +134,7 @@ body.modo-noturno .extra-info {
     width: 100%;
     height: 100%;
     background-color: rgb(216, 216, 216);
-    z-index: 1000;
+    z-index: 1002;
     overflow: auto; 
     display: flex;
     align-items: center;
@@ -140,29 +151,40 @@ body.modo-noturno .extra-info {
     border: none;
     font-size: 30px;
     cursor: pointer;
-    z-index: 1001; 
+    z-index: 1004; 
 }
 
 .close-overlay:hover {
     background-color: lightgray;
+
 }
 
 body.modo-noturno .overlay {
     background-color: #1C201D;
+
 }
 
 body.modo-noturno .close-overlay {
     color: white;
+
 }
 
-#particles-js,
+#particles-js{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1004;
+}
+
 #particles-main {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: 1001;
 }
 
 #interactive-objects {
@@ -172,6 +194,7 @@ body.modo-noturno .close-overlay {
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 
 .interactive-object {
@@ -181,11 +204,13 @@ body.modo-noturno .close-overlay {
     opacity: 0;
     transform: scale(0);
     cursor: pointer; 
+    z-index: 1005;
 }
 
 .interactive-object.visible {
     opacity: 1;
     transform: scale(1);
+
 }
 
 .central-object {
@@ -193,6 +218,7 @@ body.modo-noturno .close-overlay {
     width: 75px;
     height: 75px;
     cursor: pointer;
+    z-index: 1005;
 }
 
 .central-object.mobile {
@@ -203,23 +229,9 @@ body.modo-noturno .close-overlay {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    z-index: 1003;
 }
 
-.info-overlay {
-    display: none;
-    position: absolute;
-    width: 300px;
-    height: 100px;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    border-radius: 10px; 
-    z-index: 1002;
-    padding: 10px;
-    box-sizing: border-box;
-    opacity: 0; 
-    transition: transform 0.5s ease-out, opacity 0.5s ease-out;
-}
 
 body.modo-noturno .info-overlay {
     background-color: #1C201D;
@@ -246,14 +258,16 @@ body.modo-noturno .info-overlay {
     background-color: lightgray;
 }
 
-/* CSS: Estilos para o iframe, botão de fechar, botão fullscreen, e indicador de carregamento */
+
+
+
 .iframe-container {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
+    width: 90%;
+    height: 90%;
     background-color: rgba(0, 0, 0, 1);
     z-index: 1002;
     display: none;
@@ -304,9 +318,14 @@ body.modo-noturno .info-overlay {
     background: none;
     border: none;
     font-size: 30px;
-    color: white;
+    color: green; /* Cor dos ícones dos botões alterada para preto */
     cursor: pointer;
     z-index: 1003;
+}
+
+.close-iframe:hover,
+.fullscreen-iframe:hover {
+    color: gray; /* Cor dos botões ao passar o mouse */
 }
 
 .close-iframe {
@@ -327,8 +346,6 @@ body.modo-noturno .info-overlay {
     display: none;
     z-index: 1003;
 }
-
-
 
 
 
