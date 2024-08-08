@@ -106,15 +106,38 @@ document.addEventListener('DOMContentLoaded', () => {
         obj.appendChild(img);
         interactiveObjectsContainer.appendChild(obj);
 
-        if (window.innerWidth <= 768 && !isCentral) { 
+        if (!isCentral) {
             obj.addEventListener('click', () => {
+                anime({
+                    targets: obj,
+                    scale: 1.5,
+                    opacity: 0.6,
+                    easing: 'easeInOutQuad',
+                    duration: 200,
+                    direction: 'alternate'
+                });
                 window.open(link, '_blank');
                 scrollToElementIfNeeded(obj);
             });
-        } else if (!isCentral) {
-            obj.addEventListener('click', (event) => {
-                showInfoOverlay(id, event);
-                scrollToElementIfNeeded(obj);
+
+            obj.addEventListener('mouseenter', () => {
+                anime({
+                    targets: obj,
+                    scale: 1.2,
+                    opacity: 0.8,
+                    easing: 'easeInOutQuad',
+                    duration: 300
+                });
+            });
+
+            obj.addEventListener('mouseleave', () => {
+                anime({
+                    targets: obj,
+                    scale: 1,
+                    opacity: 1,
+                    easing: 'easeInOutQuad',
+                    duration: 300
+                });
             });
         }
 
@@ -204,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const angleInRadians = pos.angle * (Math.PI / 180);
             const x = centralPosition.x + pos.distance * Math.cos(angleInRadians) - 25;
             const y = centralPosition.y + pos.distance * Math.sin(angleInRadians) - 25;
-            const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y, infoLinks[index + 0]);
+            const obj = createInteractiveObject(index + 1, srcs[index + 1], x, y, infoLinks[index]);
             if (window.innerWidth > 768) {
                 createInfoOverlay(index + 1, infoTexts[index], infoLinks[index]);
             }
@@ -307,12 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         vortexActive = !vortexActive;
 
-     
         if (window.innerWidth <= 768) {
             surroundingObjects.forEach((obj, i) => {
                 setTimeout(() => {
                     scrollToElementIfNeeded(obj);
-                }, i * 500); 
+                }, i * 500);
             });
         }
     };
@@ -327,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const resetOverlay = () => {
         overlay.style.display = 'none';
-     
+
         interactiveObjectsContainer.innerHTML = '';
         infoOverlaysContainer.innerHTML = '';
         interactiveObjects = [];
@@ -377,8 +399,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     centralButton.addEventListener('click', function() {
+        anime({
+            targets: centralButton,
+            scale: [1, 1.2, 1],
+            easing: 'easeInOutQuad',
+            duration: 600,
+        });
+
         overlay.style.display = 'flex';
-  
+
         loadParticlesConfig(document.body.classList.contains('modo-noturno'));
         const centralObject = interactiveObjects[0];
         anime({
@@ -396,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     closeOverlay.addEventListener('click', function() {
         overlay.style.display = 'none';
-   
+
         vortexActive = false;
         surroundingObjects.forEach(obj => {
             obj.style.opacity = '0';
@@ -407,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.addEventListener('click', function(event) {
         if (event.target === overlay) {
             overlay.style.display = 'none';
-            
+
             vortexActive = false;
             surroundingObjects.forEach(obj => {
                 obj.style.opacity = '0';
