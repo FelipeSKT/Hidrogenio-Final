@@ -1,4 +1,3 @@
-// Path: /mnt/data/script.js
 
 document.addEventListener('DOMContentLoaded', () => {
     const modoNoturnoIcon = document.getElementById('modo-noturno');
@@ -130,11 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 iframeContent.style.display = 'none';
 
                 iframeContent.onloadstart = () => {
-                    loadingIndicator.style.display = 'block'; // Mostra o GIF ao iniciar o carregamento
+                    loadingIndicator.style.display = 'block'; 
                 };
 
                 iframeContent.onload = () => {
-                    loadingIndicator.style.display = 'none'; // Oculta o GIF ao concluir o carregamento
+                    loadingIndicator.style.display = 'none'; 
                     iframeContent.style.display = 'block';
                     adjustIframeSize(iframeContent);
                 };
