@@ -2,7 +2,7 @@
 
 <p style="background-color:#f0f0f0; padding: 10px; border-radius: 5px;">
   <strong>Descrição:</strong> 
-  <span style="color: #2c3e50;">Insira aqui a descrição do projeto. Esta seção deve detalhar os objetivos do projeto, os problemas que ele resolve e suas principais funcionalidades.</span>
+  <span style="color: #2c3e50;">"Hidrogênio Verde: Do Campo ao Futuro Urbano" explora a transição energética utilizando hidrogênio verde, uma fonte de energia limpa e sustentável. O site fornece informações detalhadas sobre a produção de hidrogênio a partir de fontes renováveis, seus benefícios ambientais, e sua aplicação tanto em áreas rurais quanto urbanas. Com gráficos interativos e recursos visuais, o projeto visa educar e inspirar a adoção de tecnologias verdes no combate às mudanças climáticas.</span>
 </p>
 
 ## Como Usar
@@ -12,10 +12,12 @@
 </p>
 
 <ol>
-  <li>Acesse o site através do seguinte link: <a href="URL_DO_SITE">URL_DO_SITE</a>.</li>
-  <li>Navegue pelo menu principal para explorar as diferentes seções do site.</li>
-  <li>Utilize a barra de busca para encontrar informações específicas.</li>
-  <li>Para mais detalhes sobre cada funcionalidade, consulte a documentação disponível no site.</li>
+  <li>Acesse o site através do seguinte link: <a href="[URL_DO_SITE](https://felipeskt.github.io/Hidrogenio-Final/)">Hidrogenio_Verde</a>.</li>
+  <li>Interaja com a imagem central, é um botão.</li>
+  <li>Depois de interagir com o objeto central, uma sobreposição aparecerá dentro dele á um objeto, interaja com ele.</li>
+  <li>Após interagir com o objeto, outros objetos deverão aparecer, cada um deles ao interagir mostrará informações para você.</li>
+  <li>O site possui um sistema de particulas interativa se quiser se divertir apenas click com o mause na tela.</li>
+  <li>O site possui um modo noturno para pessoas sensiveis, para ativar apenas interaja com a imagem de um sol que esta no cabeçalho.</li>
 </ol>
 
 ## Agradecimentos
@@ -25,9 +27,8 @@
 </p>
 
 <ul>
-  <li><strong>[Nome da Pessoa 1]</strong> - Por suas incansáveis horas de revisão de código e feedbacks construtivos.</li>
-  <li><strong>[Nome da Pessoa 2]</strong> - Pela ajuda na fase inicial do projeto e pelas ótimas ideias que impulsionaram o desenvolvimento.</li>
-  <li><strong>[Nome da Pessoa 3]</strong> - Pelo suporte emocional e motivacional nos momentos mais difíceis.</li>
+  <li><strong>[Professor Minderson Andrei Santana]</strong> - Por suas incansáveis horas de revisão de código e feedbacks construtivos.</li>
+  <li><strong>[Amigo Jhonatas edson soares da silva]</strong> - Pela ajuda na fase inicial do projeto e pelas ótimas ideias que impulsionaram o desenvolvimento.</li>
 </ul>
 
 <p style="background-color:#f9f2f4; padding: 10px; border-radius: 5px;">
@@ -42,4 +43,4 @@ Esperamos que este projeto seja útil e inspirador para você. Se tiver qualquer
 
 Com gratidão,
 
-[Seu Nome]
+[Felipe de Ornellas Tonin]
