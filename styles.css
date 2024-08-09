@@ -20,7 +20,7 @@ header {
     background-color: #479B05;
     padding: 20px;
     position: fixed;
-    width: 100%; 
+    width: 100%;
     top: 0;
     display: flex;
     align-items: center;
@@ -28,7 +28,7 @@ header {
     box-sizing: border-box;
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
-    margin: 0 auto; 
+    margin: 0 auto;
     z-index: 1001;
 }
 
@@ -91,8 +91,8 @@ footer {
     display: flex;
     box-sizing: border-box;
     transition: bottom 500ms ease-in-out;
-    border-top-left-radius: 50px; 
-    border-top-right-radius: 50px; 
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
     z-index: 1001;
 }
 
@@ -128,20 +128,20 @@ body.modo-noturno .extra-info {
 }
 
 .overlay {
-    position: absolute; 
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgb(216, 216, 216);
     z-index: 1002;
-    overflow: auto; 
+    overflow: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
     border: 1px solid #ccc;
-    }
+}
 
 .close-overlay {
     position: absolute;
@@ -151,7 +151,7 @@ body.modo-noturno .extra-info {
     border: none;
     font-size: 30px;
     cursor: pointer;
-    z-index: 1004; 
+    z-index: 1004;
 }
 
 .close-overlay:hover {
@@ -169,7 +169,7 @@ body.modo-noturno .close-overlay {
 
 }
 
-#particles-js{
+#particles-js {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -194,16 +194,16 @@ body.modo-noturno .close-overlay {
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
 }
 
 .interactive-object {
     position: absolute;
-    width: 75px; 
-    height: 75px; 
+    width: 75px;
+    height: 75px;
     opacity: 0;
     transform: scale(0);
-    cursor: pointer; 
+    cursor: pointer;
     z-index: 1005;
 }
 
@@ -222,7 +222,7 @@ body.modo-noturno .close-overlay {
 }
 
 .central-object.mobile {
-    top: 20px; 
+    top: 20px;
 }
 
 .interactive-object img {
@@ -231,7 +231,6 @@ body.modo-noturno .close-overlay {
     object-fit: contain;
     z-index: 1003;
 }
-
 
 body.modo-noturno .info-overlay {
     background-color: #1C201D;
@@ -257,9 +256,6 @@ body.modo-noturno .info-overlay {
 .close-info-overlay:hover {
     background-color: lightgray;
 }
-
-
-
 
 .iframe-container {
     position: fixed;
@@ -318,14 +314,14 @@ body.modo-noturno .info-overlay {
     background: none;
     border: none;
     font-size: 30px;
-    color: green; /* Cor dos ícones dos botões alterada para preto */
+    color: green;
     cursor: pointer;
     z-index: 1003;
 }
 
 .close-iframe:hover,
 .fullscreen-iframe:hover {
-    color: gray; /* Cor dos botões ao passar o mouse */
+    color: gray;
 }
 
 .close-iframe {
@@ -341,13 +337,15 @@ body.modo-noturno .info-overlay {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: white;
-    font-size: 18px;
+    z-index: 1004;
     display: none;
-    z-index: 1003;
 }
 
-
+.loading-gif {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
 
 @media (max-width: 768px) {
     header {
@@ -359,7 +357,7 @@ body.modo-noturno .info-overlay {
         background-color: #479B05;
         padding: 20px;
         position: fixed;
-        width: 100%; 
+        width: 100%;
         top: 0;
         z-index: 1000;
         display: flex;
@@ -368,9 +366,9 @@ body.modo-noturno .info-overlay {
         box-sizing: border-box;
         border-bottom-left-radius: 50px;
         border-bottom-right-radius: 50px;
-        margin: 0 auto; 
+        margin: 0 auto;
     }
-    
+
     header h1 {
         font-size: 0.8em;
         text-align: center;
@@ -395,14 +393,14 @@ body.modo-noturno .info-overlay {
         flex-direction: column;
         padding: 10px;
     }
-    
+
     .extra-info {
         margin-top: 10px;
         font-size: 0.9em;
     }
 
     .overlay {
-        
+
         overflow: 1000px;
     }
 }
@@ -423,9 +421,9 @@ body.modo-noturno .info-overlay {
         transform: translateX(-50%);
     }
 
-.info-overlay {
-        width: 90%; 
-        left: 5%; 
+    .info-overlay {
+        width: 90%;
+        left: 5%;
     }
 
     .close-info-overlay {

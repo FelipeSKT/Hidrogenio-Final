@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <img id="modo-noturno" src="icone_lua.png" alt="Ícone de modo noturno">
@@ -22,21 +24,21 @@
             <p>Desenvolvimento de Código:</p>
 
             <li><a href="https://github.com/FelipeSKT">FelipeSKT (GitHub)</a></li>
-    
+
             <p>Bibliotecas de Script:</p>
-            
-                <li><a href="https://github.com/VincentGarreau/particles.js/">Particle.js</a></li>
-                <li><a href="https://animejs.com/">Anime.js</a></li>
-            
+
+            <li><a href="https://github.com/VincentGarreau/particles.js/">Particle.js</a></li>
+            <li><a href="https://animejs.com/">Anime.js</a></li>
+
             <p>Imagens:</p>
 
-                <li>Criadas por <a href="https://leonardo.ai">Leonardo.ia</a>.</li>
+            <li>Criadas por <a href="https://leonardo.ai">Leonardo.ia</a>.</li>
 
             <p>Agradecimentos Especiais:</p>
-        
-                <li><a href="https://www.openai.com/">ChatGPT</a> pela assistência na correção de algumas partes do código.</li>
 
-           
+            <li><a href="https://www.openai.com/">ChatGPT</a> pela assistência na correção de algumas partes do código.</li>
+
+
         </div>
     </footer>
     <div id="overlay" class="overlay">
@@ -46,17 +48,18 @@
         <div id="interactive-objects"></div>
     </div>
 
-
-<div id="iframe-container" class="iframe-container">
-    <button id="close-iframe" class="close-iframe"><i class="material-icons">close</i></button>
-    <button id="fullscreen-iframe" class="fullscreen-iframe"><i class="material-icons">fullscreen</i></button>
-    <div id="loading-indicator" class="loading-indicator">Carregando...</div>
-    <iframe id="iframe-content" src="" frameborder="0"></iframe>
-</div>
-
+    <div id="iframe-container" class="iframe-container">
+        <button id="close-iframe" class="close-iframe"><i class="material-icons">close</i></button>
+        <button id="fullscreen-iframe" class="fullscreen-iframe"><i class="material-icons">fullscreen</i></button>
+        <div id="loading-indicator" class="loading-indicator">
+            <img src="load.gif" alt="Carregando..." class="loading-gif">
+        </div>
+        <iframe id="iframe-content" src="" frameborder="0"></iframe>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

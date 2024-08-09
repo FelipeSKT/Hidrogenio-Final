@@ -6,10 +6,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeOverlay = document.getElementById('close-overlay');
     const centralButton = document.querySelector('.central-button');
     const interactiveObjectsContainer = document.getElementById('interactive-objects');
+    const iframeContent = document.getElementById('iframe-content');
+    const loadingIndicator = document.getElementById('loading-indicator');
 
+    let activeObjectIndex = 0;
     let interactiveObjects = [];
     let surroundingObjects = [];
     let vortexActive = false;
+
 
     const lightParticlesConfig = {
         particles: {
@@ -114,8 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 const iframeContainer = document.getElementById('iframe-container');
-                const iframeContent = document.getElementById('iframe-content');
-                const loadingIndicator = document.getElementById('loading-indicator');
 
                 loadingIndicator.style.display = 'block';
 
@@ -127,8 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 iframeContent.style.display = 'none';
 
+                iframeContent.onloadstart = () => {
+                    loadingIndicator.style.display = 'block'; // Mostra o GIF ao iniciar o carregamento
+                };
+
                 iframeContent.onload = () => {
-                    loadingIndicator.style.display = 'none';
+                    loadingIndicator.style.display = 'none'; // Oculta o GIF ao concluir o carregamento
                     iframeContent.style.display = 'block';
                     adjustIframeSize(iframeContent);
                 };
@@ -285,11 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
         resetOverlayElements();
     };
 
-    closeOverlay.addEventListener('click', function() {
+    closeOverlay.addEventListener('click', function () {
         resetOverlay();
     });
 
-    overlay.addEventListener('click', function(event) {
+    overlay.addEventListener('click', function (event) {
         if (event.target === overlay) {
             resetOverlay();
         }
@@ -305,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateObjectPositions();
     };
 
-    modoNoturnoIcon.addEventListener('click', function() {
+    modoNoturnoIcon.addEventListener('click', function () {
         const isNightMode = document.body.classList.toggle('modo-noturno');
         modoNoturnoIcon.src = isNightMode ? 'icone_sol.png' : 'icone_lua.png';
         loadParticlesConfig(isNightMode);
@@ -318,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    centralButton.addEventListener('click', function() {
+    centralButton.addEventListener('click', function () {
         anime({
             targets: centralButton,
             scale: [1, 1.2, 1],
@@ -339,12 +345,12 @@ document.addEventListener('DOMContentLoaded', () => {
             duration: 1000
         });
 
-        centralObject.addEventListener('click', function() {
+        centralObject.addEventListener('click', function () {
             toggleVortexAnimation();
         });
     });
 
-    closeOverlay.addEventListener('click', function() {
+    closeOverlay.addEventListener('click', function () {
         overlay.style.display = 'none';
 
         vortexActive = false;
@@ -354,7 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    overlay.addEventListener('click', function(event) {
+    overlay.addEventListener('click', function (event) {
         if (event.target === overlay) {
             overlay.style.display = 'none';
 
@@ -366,18 +372,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    window.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function () {
         const footer = document.querySelector('footer');
         footer.style.bottom = (window.scrollY + window.innerHeight >= document.body.offsetHeight) ? '0' : '-150px';
     });
 
-    document.addEventListener('contextmenu', function(e) {
+    document.addEventListener('contextmenu', function (e) {
         if (e.target.tagName === 'IMG') {
             e.preventDefault();
         }
     });
 
-    document.addEventListener('mousedown', function(e) {
+    document.addEventListener('mousedown', function (e) {
         e.preventDefault();
     });
 
@@ -422,19 +428,18 @@ const scrollToElementIfNeeded = (el) => {
 window.addEventListener('resize', adjustOverlayForMobile);
 adjustOverlayForMobile();
 
-document.getElementById('close-iframe').addEventListener('click', function() {
+document.getElementById('close-iframe').addEventListener('click', function () {
     const iframeContainer = document.getElementById('iframe-container');
     iframeContainer.classList.remove('show');
     iframeContainer.classList.add('hide');
 
     setTimeout(() => {
         iframeContainer.style.display = 'none';
-        const iframeContent = document.getElementById('iframe-content');
         iframeContent.src = '';
     }, 500);
 });
 
-document.getElementById('fullscreen-iframe').addEventListener('click', function() {
+document.getElementById('fullscreen-iframe').addEventListener('click', function () {
     const iframeContainer = document.getElementById('iframe-container');
     iframeContainer.classList.toggle('fullscreen');
 
@@ -453,11 +458,10 @@ const adjustIframeSize = (iframe) => {
 };
 
 window.addEventListener('orientationchange', () => {
-    const iframeContent = document.getElementById('iframe-content');
     adjustIframeSize(iframeContent);
 });
 
-document.getElementById('iframe-container').addEventListener('transitionend', function(event) {
+document.getElementById('iframe-container').addEventListener('transitionend', function (event) {
     if (event.propertyName === 'opacity' && this.classList.contains('hide')) {
         this.style.display = 'none';
     }
